@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LASTRI - Layanan Informasi Tanpa Antri</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'bpjs-navy': '#003f87',
+            'bpjs-cyan': '#006688',
+            'bpjs-sky': '#43c5fd',
+            'bpjs-light': '#f7f9fb',
+            'bpjs-success': '#10b981',
+          },
+          fontFamily: {
+            sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+            display: ["Plus Jakarta Sans", "ui-sans-serif", "sans-serif"],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="font-sans antialiased h-screen overflow-hidden flex flex-col">
+
+  <!-- Top Navbar (BpjsHeader) -->
+  <header class="bg-transparent text-white border-b border-white/10 relative z-50 flex-shrink-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- BPJS Ketenagakerjaan Logo & Slogan -->
+        <div class="flex items-center space-x-3 cursor-pointer">
+          <img src="/static/images/logo-bpjamsostek@2x.svg" alt="BPJS Ketenagakerjaan" class="h-10" />
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+          <div
+            class="relative group cursor-pointer flex items-center space-x-1 hover:text-blue-200 transition-colors py-2">
+            <span>Informasi Kepesertaan</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 opacity-80"></i>
+          </div>
+          <a href="#" class="hover:text-blue-200 transition-colors py-2">Cara Klaim</a>
+          <a href="#" class="hover:text-blue-200 transition-colors py-2">Berita</a>
+          <a href="#" class="hover:text-blue-200 transition-colors py-2">Tentang Kami</a>
+          <div
+            class="relative group cursor-pointer flex items-center space-x-1 hover:text-blue-200 transition-colors py-2">
+            <span>Informasi Publik</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 opacity-80"></i>
+          </div>
+          <a href="#" class="hover:text-blue-200 transition-colors py-2">Kontak</a>
+        </nav>
+
+        <!-- Utility Icons & Language Selector -->
+        <div class="hidden lg:flex items-center space-x-5">
+          <button class="p-1.5 hover:bg-white/10 rounded-full transition-colors cursor-pointer" aria-label="Search">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </button>
+          <div
+            class="flex items-center space-x-1 bg-white/10 px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-white/15 cursor-pointer transition-all">
+            <i data-lucide="globe" class="w-4 h-4"></i>
+            <span>ID</span>
+            <span class="text-white/40 font-normal">|</span>
+            <span class="text-white/75 hover:text-white">EN</span>
+          </div>
+        </div>
+
+        <!-- Mobile Hamburger Trigger -->
+        <div class="lg:hidden flex items-center space-x-2">
+          <div class="flex items-center space-x-1 bg-white/10 px-3 py-1 rounded-full text-xs font-bold mr-1">
+            <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+            <span>ID</span>
+          </div>
+          <button id="mobile-menu-btn" class="p-2 rounded-md hover:bg-white/10 transition-colors focus:outline-none">
+            <i id="mobile-menu-icon" data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu"
+      class="hidden lg:hidden bg-[#151517] border-t border-white/10 py-4 px-6 space-y-3 absolute top-full left-0 right-0 shadow-xl transition-all">
+      <a href="#" class="block py-2 text-sm font-semibold text-[#e1e1e2] hover:text-indigo-400">Informasi
+        Kepesertaan</a>
+      <a href="#" class="block py-2 text-sm font-semibold text-[#e1e1e2] hover:text-indigo-400">Cara Klaim</a>
+      <a href="#" class="block py-2 text-sm font-semibold text-[#e1e1e2] hover:text-indigo-400">Berita</a>
+      <a href="#" class="block py-2 text-sm font-semibold text-[#e1e1e2] hover:text-indigo-400">Tentang Kami</a>
+      <a href="#" class="block py-2 text-sm font-semibold text-[#e1e1e2] hover:text-indigo-400">Informasi Publik</a>
+      <a href="#" class="block py-2 text-sm font-semibold text-[#e1e1e2] hover:text-indigo-400">Kontak</a>
+      <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+        <span class="text-xs text-[#88888D]">Cari informasi kepesertaan:</span>
+        <i data-lucide="search" class="w-5 h-5 text-[#e1e1e2]/80 cursor-pointer"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Container -->
+  <main class="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 gap-6">
+
+    <!-- ================= WELCOME SCREEN ================= -->
+    <div id="welcome-screen" class="w-full flex-1 flex flex-col justify-between overflow-y-auto pr-1">
+
+      <!-- Hero Section -->
+      <section class="relative overflow-hidden bg-transparent pt-4 pb-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+          <!-- LEFT: Welcome details and initial chat input -->
+          <div class="lg:col-span-7 flex flex-col space-y-4 text-left">
+            <div class="space-y-1">
+              <h1
+                class="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight leading-tight">
+                Halo, saya LASTRI
+              </h1>
+              <h2 class="font-display font-bold text-lg sm:text-xl text-yellow-400 leading-none">
+                Layanan Informasi Tanpa Antri
+              </h2>
+              <p class="text-white/80 text-xs sm:text-sm leading-relaxed max-w-xl mt-1.5 font-medium">
+                Ceritakan kebutuhan Anda, saya siap membantu menemukan layanan BPJS Ketenagakerjaan yang tepat tanpa
+                perlu mencari menu satu per satu.
+              </p>
+            </div>
+
+            <!-- Input Panel box -->
+            <div class="bg-white rounded-3xl border border-slate-100 p-5 shadow-2xl relative z-10 text-slate-800">
+              <div class="flex items-center space-x-3 pb-3 border-b border-slate-100">
+                <img src="/static/images/lastri_icon.png" alt="Lastri"
+                  class="w-8 h-8 rounded-full border border-slate-100 object-cover" />
+                <div class="flex flex-col">
+                  <span class="font-display font-extrabold text-slate-900 text-xs flex items-center">
+                    LASTRI
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 ml-1.5 inline-block"></span>
+                  </span>
+                  <span class="text-[9px] text-slate-500 font-medium">Asisten Virtual BPJS Ketenagakerjaan</span>
+                </div>
+              </div>
+
+              <!-- Intro chat bubble -->
+              <div class="py-2 space-y-1">
+                <div
+                  class="inline-block bg-blue-50 border border-blue-100/50 rounded-2xl rounded-tl-sm px-4 py-3 text-slate-700 text-[11px] sm:text-xs max-w-lg leading-relaxed shadow-sm">
+                  Selamat datang di BPJS Ketenagakerjaan. Ada yang bisa Lastri bantu hari ini?
+                </div>
+                <!-- <div class="text-[9px] text-slate-400 pl-1 font-mono">09.30</div> -->
+              </div>
+
+              <!-- Welcome Text Input -->
+              <div class="relative mt-2">
+                <div
+                  class="flex items-center bg-slate-50 border border-slate-200 rounded-xl focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/10 transition-all p-1.5">
+                  <input id="welcome-input" type="text"
+                    placeholder="Tulis pertanyaan Anda atau jelaskan kebutuhan Anda..."
+                    class="flex-1 bg-transparent px-3 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none" />
+                  <button id="welcome-send-btn" disabled
+                    class="p-2.5 rounded-lg transition-all bg-slate-200 text-slate-400 cursor-not-allowed">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Upload prompt and security badge -->
+              <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 mt-4 pt-4 border-t border-slate-100 text-[11px] text-slate-500">
+                <button id="welcome-attach-prompt"
+                  class="flex items-center space-x-1.5 text-blue-600 hover:text-blue-700 font-semibold cursor-pointer py-1 self-start sm:self-auto text-left">
+                  <i data-lucide="paperclip" class="w-4 h-4 text-blue-500"></i>
+                  <span>Lampirkan dokumen (KTP, Kartu Peserta) untuk klaim</span>
+                </button>
+                <div
+                  class="flex items-center space-x-1.5 bg-slate-50 border border-slate-100 px-2.5 py-1 rounded-full text-slate-500 text-[10px]">
+                  <i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-500"></i>
+                  <span>Dokumen Anda aman bersama BPJS Ketenagakerjaan</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: CS Lastri image portrait -->
+          <div class="lg:col-span-5 hidden lg:flex justify-center relative">
+            <div class="relative w-full max-w-sm">
+              <img src="/static/images/lastri_icon.png" alt="CS Lastri BPJS"
+                class="w-full relative z-10 rounded-3xl shadow-2xl max-h-[460px] object-cover object-top hover:scale-[1.01] transition-all duration-300" />
+              <div
+                class="absolute right-3 bottom-6 bg-slate-900/80 backdrop-blur-sm border border-white/10 px-4 py-2 rounded-xl shadow-lg z-20 flex items-center space-x-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span class="text-[11px] font-extrabold text-white">AI Generated Image</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Quick Replies Grid -->
+      <section class="py-4 w-full z-10">
+        <h3 class="text-white font-display font-semibold text-xs uppercase tracking-wider mb-3 text-left">
+          Contoh yang bisa Anda tanyakan:
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+
+          <button data-reply="Saya ingin klaim JHT" data-walkthrough="true"
+            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
+            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
+              <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
+                Saya ingin klaim JHT</h4>
+              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Klaim Jaminan Hari Tua</p>
+            </div>
+          </button>
+
+          <button data-reply="Bagaimana cara cek saldo JHT?" data-walkthrough="false"
+            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
+            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
+              <i data-lucide="credit-card" class="w-4 h-4 text-blue-600"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
+                Bagaimana cara cek saldo JHT?</h4>
+              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Cek isi tabungan JHT</p>
+            </div>
+          </button>
+
+          <button data-reply="Saya terkena PHK" data-walkthrough="false"
+            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
+            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
+              <i data-lucide="user-x" class="w-4 h-4 text-blue-600"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
+                Saya terkena PHK</h4>
+              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Panduan korban PHK</p>
+            </div>
+          </button>
+
+          <button data-reply="Saya ingin mendaftar peserta" data-walkthrough="false"
+            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
+            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
+              <i data-lucide="user-plus" class="w-4 h-4 text-blue-600"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
+                Saya ingin mendaftar peserta</h4>
+              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Registrasi anggota baru</p>
+            </div>
+          </button>
+
+          <button data-reply="Perusahaan ingin laporkan tenaga kerja" data-walkthrough="false"
+            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
+            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
+              <i data-lucide="building-2" class="w-4 h-4 text-blue-600"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
+                Perusahaan ingin laporkan tenaga kerja</h4>
+              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Laporan jaminan karyawan</p>
+            </div>
+          </button>
+
+          <button data-reply="Saya ingin mengajukan JKP" data-walkthrough="false"
+            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
+            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
+              <i data-lucide="umbrella" class="w-4 h-4 text-blue-600"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
+                Saya ingin mengajukan JKP</h4>
+              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Klaim Kehilangan Pekerjaan</p>
+            </div>
+          </button>
+
+        </div>
+      </section>
+
+      <!-- Footer Badges -->
+      <section
+        class="bg-transparent border-t border-white/10 w-full -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 py-5 flex-shrink-0">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-left max-w-7xl mx-auto">
+          <div class="flex items-start space-x-3.5 pb-2 sm:pb-0">
+            <div class="p-2 bg-white/10 border border-white/10 rounded-xl">
+              <i data-lucide="message-square-text" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+              <h4 class="text-white font-semibold text-xs">Dialog Interaktif</h4>
+              <p class="text-white/70 text-[10px] mt-0.5 leading-snug">Tanya apa saja, Lastri siap membantu 24/7</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3.5">
+            <div class="p-2 bg-white/10 border border-white/10 rounded-xl">
+              <i data-lucide="file-text" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+              <h4 class="text-white font-semibold text-xs">Lampirkan Dokumen</h4>
+              <p class="text-white/70 text-[10px] mt-0.5 leading-snug">Kirim dokumen pendukung dengan mudah dan aman</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3.5">
+            <div class="p-2 bg-white/10 border border-white/10 rounded-xl">
+              <i data-lucide="target" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+              <h4 class="text-white font-semibold text-xs">Solusi Tepat</h4>
+              <p class="text-white/70 text-[10px] mt-0.5 leading-snug">Dapatkan jawaban dan panduan instan sesuai data
+              </p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3.5">
+            <div class="p-2 bg-white/10 border border-white/10 rounded-xl">
+              <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+              <h4 class="text-white font-semibold text-xs">Aman & Terpercaya</h4>
+              <p class="text-white/70 text-[10px] mt-0.5 leading-snug">Semua unggahan Anda dilindungi hukum BPJS</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+
+    <!-- ================= CHAT WORKSPACE (SPLIT PANEL) ================= -->
+    <div id="chat-workspace" class="hidden w-full flex-1 flex flex-col lg:flex-row gap-6 h-full overflow-hidden">
+
+      <!-- Left Column: Interactive Dialogue Interface -->
+      <div class="flex-1 flex flex-col h-full min-w-0">
+
+        <!-- Walkthrough Hint Banner -->
+        <div id="walkthrough-banner"
+          class="hidden bg-indigo-950/45 border border-indigo-500/20 text-white px-4 py-2.5 rounded-lg mb-4 text-[11px] sm:text-xs font-medium flex items-center justify-between shadow-xl">
+          <span class="flex items-center space-x-2">
+            <span id="walkthrough-step-badge"
+              class="bg-indigo-600 text-white font-extrabold w-5 h-5 rounded-full flex items-center justify-center text-[10px]">
+              1
+            </span>
+            <span id="walkthrough-instruction-text">
+              👉 Panduan: Tekan ikon klip kertas (Paperclip) untuk mengunggah berkas KTP dan Kartu Peserta.
+            </span>
+          </span>
+          <button id="instant-upload-btn"
+            class="hidden bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400/20 shadow-lg shadow-indigo-600/25 font-bold px-3 py-1 rounded-full text-[10px] cursor-pointer active:scale-95 transition-all">
+            Unggah Berkas Instan
+          </button>
+        </div>
+
+        <!-- Chat Screen viewport box -->
+        <div
+          class="flex-1 flex flex-col bg-white rounded-3xl border border-slate-150 shadow-2xl overflow-hidden h-full text-slate-800">
+
+          <!-- Details bar with Start-Over button -->
+          <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50/50">
+            <div class="flex items-center space-x-3">
+              <img src="/static/images/lastri_icon.png" alt="Lastri"
+                class="w-10 h-10 rounded-full border border-slate-100 object-cover" />
+              <div class="flex flex-col text-left">
+                <span class="font-display font-extrabold text-slate-900 text-sm flex items-center">
+                  LASTRI
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 ml-1.5 inline-block"></span>
+                </span>
+                <span class="text-[10px] text-slate-500 font-medium">Asisten Virtual ● Layanan Tanpa Antri</span>
+              </div>
+            </div>
+            <button id="reset-session-btn"
+              class="flex items-center space-x-1 py-1.5 px-3 border border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-800 rounded-full text-xs font-semibold bg-white hover:bg-slate-50 transition-all cursor-pointer shadow-sm active:scale-95">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              <span>Mulai Baru</span>
+            </button>
+          </div>
+
+          <!-- Messages Stream container -->
+          <div id="messages-container" class="flex-1 overflow-y-auto p-5 space-y-5 bg-[#f8fafc]">
+            <!-- Chat bubbles appended dynamically by JS -->
+          </div>
+
+          <!-- Command Input Area -->
+          <div class="border-t border-slate-100 p-4 bg-slate-50/50">
+            <div
+              class="flex items-center bg-white border border-slate-200 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/10 rounded-xl transition-all p-1.5 shadow-sm">
+
+              <!-- File upload button -->
+              <button id="chat-attach-btn"
+                class="p-2 text-slate-400 hover:text-blue-600 rounded-lg transition-colors cursor-pointer hover:bg-slate-50 relative group"
+                title="Unggah Dokumen (KTP & Kartu Peserta)">
+                <i data-lucide="paperclip" class="w-4 h-4 text-blue-500"></i>
+                <span
+                  class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-slate-950 text-white text-[9px] px-2 py-1 rounded hidden group-hover:block whitespace-nowrap z-50">
+                  Unggah Dokumen (KTP, KPJ)
+                </span>
+              </button>
+
+              <!-- Input field -->
+              <input id="chat-input" type="text" placeholder="Ketik pesan Anda di sini..."
+                class="flex-1 bg-transparent px-3 py-1.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none" />
+
+              <!-- Send button -->
+              <button id="chat-send-btn" disabled
+                class="p-2.5 rounded-lg transition-all bg-slate-200 text-slate-400 cursor-not-allowed">
+                <i data-lucide="send" class="w-4 h-4"></i>
+              </button>
+
+            </div>
+            <div
+              class="text-[9px] leading-tight text-slate-400 mt-2 text-center flex items-center justify-center space-x-1 select-none">
+              <i data-lucide="alert-circle" class="w-3 h-3 text-slate-400"></i>
+              <span>LASTRI dapat membuat kesalahan. Silakan periksa kembali informasi penting yang diperoleh.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Column: Sidebar Step Tracker & Ringkasan -->
+      <aside class="w-full lg:w-80 flex flex-col space-y-6 flex-shrink-0 h-full overflow-y-auto pr-1">
+
+        <!-- stepper container -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5 shadow-lg">
+          <h3 class="font-display font-bold text-white text-sm mb-4 tracking-tight flex items-center">
+            <span class="w-1.5 h-4 bg-yellow-400 rounded-full mr-2 inline-block"></span>
+            Progres Percakapan
+          </h3>
+          <div class="relative pl-1 space-y-5" id="stepper-list">
+            <!-- Stepper list items generated dynamically -->
+          </div>
+        </div>
+
+        <!-- Dynamic Ringkasan summary card -->
+        <div id="summary-card"
+          class="hidden bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5 shadow-lg transition-all duration-300">
+          <h3 id="summary-title"
+            class="font-display font-semibold text-yellow-350 text-xs mb-4 tracking-wide uppercase">
+            Ringkasan Data Anda
+          </h3>
+          <div id="summary-fields" class="space-y-3 text-xs">
+            <!-- Filled in dynamically -->
+          </div>
+        </div>
+
+        <!-- Security stamp banner -->
+        <div
+          class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-start space-x-3 shadow-md">
+          <i data-lucide="shield-check" class="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5"></i>
+          <div class="min-w-0 flex-1 text-left">
+            <h4 class="text-xs font-bold text-white">Data Anda aman bersama</h4>
+            <h5 class="text-[11px] font-extrabold text-yellow-400 opacity-90 leading-none">BPJS Ketenagakerjaan</h5>
+            <p class="text-[10px] text-white/70 leading-relaxed mt-1.5 font-medium">
+              Seluruh data dilindungi sesuai dengan ketentuan privasi dan keamanan informasi yang sah secara hukum.
+            </p>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- Client-Side State & Logic Javascript -->
+  <script src="/static/js/script.js"></script>
+</body>
+
+</html>
