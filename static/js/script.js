@@ -267,6 +267,7 @@ async function handleFreeChatRequest(text, currentHistory, files = []) {
     }
 
     // Save validationResult if n8n returns it in free chat
+    const isKpjUpload = validatedProfile !== null;
     if (data.validationResult) {
       validatedProfile = data.validationResult;
     }
@@ -274,7 +275,7 @@ async function handleFreeChatRequest(text, currentHistory, files = []) {
     const lastriReply = {
       id: `free-lst-${Date.now()}`,
       sender: 'lastri',
-      text: data.text || "Terima kasih, dokumen Anda berhasil diterima. 😊\n\nBerikut hasil validasi data Anda:",
+      text: data.text || "Bagian ini belum di setting",
       time: getFormattedTime(),
       validationResult: data.validationResult || null
     };
@@ -282,7 +283,7 @@ async function handleFreeChatRequest(text, currentHistory, files = []) {
     render();
 
     // If KTP validated in free chat, ask for KPJ
-    if (data.validationResult && text === "validate_docs") {
+    if (data.validationResult && text === "validate_docs" && !isKpjUpload) {
       isAiTyping = true;
       render();
 
@@ -398,7 +399,7 @@ async function handleFilesSelected(e) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            message: isKpjUpload ? "validate_kpj" : "validate_docs",
+            message: "validate_docs",
             history: [],
             sessionId: sessionId,
             files: uploadedFiles
@@ -420,6 +421,7 @@ async function handleFilesSelected(e) {
             sender: 'lastri',
             text: chatData.text || "Terima kasih, Kartu Peserta (KPJ) Anda berhasil divalidasi. 😊",
             time: getFormattedTime(),
+            validationResult: validatedProfile,
             programOptions: [
               { id: "jht", title: "Jaminan Hari Tua (JHT)" },
               { id: "jkp", title: "Jaminan Kehilangan Pekerjaan (JKP)" },
@@ -738,6 +740,24 @@ function renderMessages() {
                     <span class="col-span-8 text-slate-700 font-semibold flex items-center">
                       : <span class="pl-1.5">${profile.nik || '-'}</span>
                     </span>
+                    ${profile.saldoJHT !== undefined ? `
+                    <span class="col-span-4 text-slate-400 font-medium">Saldo JHT</span>
+                    <span class="col-span-8 text-emerald-600 font-bold flex items-center">
+                      : <span class="pl-1.5 font-mono">${profile.saldoJHT}</span>
+                    </span>
+                    ` : ''}
+                    ${profile.statusAktif !== undefined ? `
+                    <span class="col-span-4 text-slate-400 font-medium">Status Aktif</span>
+                    <span class="col-span-8 text-slate-700 font-semibold flex items-center">
+                      : <span class="pl-1.5">${profile.statusAktif}</span>
+                    </span>
+                    ` : ''}
+                    ${profile.statusPengkinian !== undefined ? `
+                    <span class="col-span-4 text-slate-400 font-medium">Pengkinian Data</span>
+                    <span class="col-span-8 text-slate-700 font-semibold flex items-center">
+                      : <span class="pl-1.5">${profile.statusPengkinian}</span>
+                    </span>
+                    ` : ''}
                   </div>
                 </div>
               </div>
@@ -907,8 +927,11 @@ function renderSummary() {
 
     const nama = validatedProfile.nama || "-";
     const nik = validatedProfile.nik || "-";
+    const saldoJHT = validatedProfile.saldoJHT || "-";
+    const statusAktif = validatedProfile.statusAktif || "-";
+    const statusPengkinian = validatedProfile.statusPengkinian || "-";
 
-    summaryFields.innerHTML = `
+    let html = `
             <div class="flex justify-between items-start border-b border-white/10 pb-2">
               <span class="text-white/60">Nama</span>
               <span class="text-white font-semibold text-right max-w-[160px] truncate" title="${nama}">${nama}</span>
@@ -917,7 +940,44 @@ function renderSummary() {
               <span class="text-white/60">NIK</span>
               <span class="text-white font-mono tracking-wide">${nik}</span>
             </div>
-          `;
+    `;
+
+    if (validatedProfile.saldoJHT !== undefined) {
+      html += `
+            <div class="flex justify-between items-center border-b border-white/10 pb-2">
+              <span class="text-white/60">Saldo JHT</span>
+              <span class="text-yellow-400 font-bold">${saldoJHT}</span>
+            </div>
+      `;
+    }
+
+    if (validatedProfile.statusAktif !== undefined) {
+      const isAktif = statusAktif.toLowerCase().includes('aktif') && !statusAktif.toLowerCase().includes('non');
+      const badgeClass = isAktif
+        ? "bg-emerald-500/20 text-white border border-emerald-500/10"
+        : "bg-white/20 text-white border border-white/10";
+      html += `
+            <div class="flex justify-between items-center border-b border-white/10 pb-2">
+              <span class="text-white/60">Status Aktif</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${badgeClass}">${statusAktif}</span>
+            </div>
+      `;
+    }
+
+    if (validatedProfile.statusPengkinian !== undefined) {
+      const isYa = statusPengkinian.toLowerCase().includes('sudah') || statusPengkinian.toLowerCase().includes('berhasil') || statusPengkinian.toLowerCase().includes('ya');
+      const badgeClass = isYa
+        ? "bg-emerald-500/20 text-white border border-emerald-500/10"
+        : "bg-white/20 text-white border border-white/10";
+      html += `
+            <div class="flex justify-between items-center border-b border-white/10 pb-2">
+              <span class="text-white/60">Pengkinian Data</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${badgeClass}">${statusPengkinian}</span>
+            </div>
+      `;
+    }
+
+    summaryFields.innerHTML = html;
   }
 
   if (selectedProgram) {
