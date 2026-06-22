@@ -123,7 +123,7 @@
     <div id="welcome-screen" class="w-full flex-1 flex flex-col justify-between overflow-y-auto pr-1">
 
       <!-- Hero Section -->
-      <section class="relative overflow-hidden bg-transparent pt-4 pb-6">
+      <section class="relative overflow-hidden bg-transparent pt-4 pb-6 flex-shrink-0">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
           <!-- LEFT: Welcome details and initial chat input -->
@@ -212,87 +212,6 @@
         </div>
       </section>
 
-      <!-- Quick Replies Grid -->
-      <section class="py-4 w-full z-10">
-        <h3 class="text-white font-display font-semibold text-xs uppercase tracking-wider mb-3 text-left">
-          Contoh yang bisa Anda tanyakan:
-        </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-
-          <button data-reply="Saya ingin klaim JHT" data-walkthrough="true"
-            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
-            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
-              <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i>
-            </div>
-            <div class="min-w-0 flex-1">
-              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
-                Saya ingin klaim JHT</h4>
-              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Klaim Jaminan Hari Tua</p>
-            </div>
-          </button>
-
-          <button data-reply="Bagaimana cara cek saldo JHT?" data-walkthrough="false"
-            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
-            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
-              <i data-lucide="credit-card" class="w-4 h-4 text-blue-600"></i>
-            </div>
-            <div class="min-w-0 flex-1">
-              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
-                Bagaimana cara cek saldo JHT?</h4>
-              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Cek isi tabungan JHT</p>
-            </div>
-          </button>
-
-          <button data-reply="Saya terkena PHK" data-walkthrough="false"
-            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
-            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
-              <i data-lucide="user-x" class="w-4 h-4 text-blue-600"></i>
-            </div>
-            <div class="min-w-0 flex-1">
-              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
-                Saya terkena PHK</h4>
-              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Panduan korban PHK</p>
-            </div>
-          </button>
-
-          <button data-reply="Saya ingin mendaftar peserta" data-walkthrough="false"
-            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
-            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
-              <i data-lucide="user-plus" class="w-4 h-4 text-blue-600"></i>
-            </div>
-            <div class="min-w-0 flex-1">
-              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
-                Saya ingin mendaftar peserta</h4>
-              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Registrasi anggota baru</p>
-            </div>
-          </button>
-
-          <button data-reply="Perusahaan ingin laporkan tenaga kerja" data-walkthrough="false"
-            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
-            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
-              <i data-lucide="building-2" class="w-4 h-4 text-blue-600"></i>
-            </div>
-            <div class="min-w-0 flex-1">
-              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
-                Perusahaan ingin laporkan tenaga kerja</h4>
-              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Laporan jaminan karyawan</p>
-            </div>
-          </button>
-
-          <button data-reply="Saya ingin mengajukan JKP" data-walkthrough="false"
-            class="quick-reply-btn flex items-start text-left bg-white border-none rounded-xl p-2.5 hover:bg-slate-50 hover:shadow-md transition-all group duration-200 cursor-pointer">
-            <div class="p-1.5 bg-blue-50 rounded-lg mr-2.5 flex-shrink-0">
-              <i data-lucide="umbrella" class="w-4 h-4 text-blue-600"></i>
-            </div>
-            <div class="min-w-0 flex-1">
-              <h4 class="text-[#005c99] font-bold text-[11px] leading-snug truncate">
-                Saya ingin mengajukan JKP</h4>
-              <p class="text-slate-500 text-[9px] mt-0.5 leading-none">Klaim Kehilangan Pekerjaan</p>
-            </div>
-          </button>
-
-        </div>
-      </section>
 
       <!-- Footer Badges -->
       <section
